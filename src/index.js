@@ -1,0 +1,5 @@
+export * from './shapes'
+export * from './utils'
+export { default as CanvasDOM } from './CanvasDOM'
+export { default as Component } from './Component'
+export { default } from './Canvas'
