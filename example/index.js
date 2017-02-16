@@ -1,4 +1,4 @@
-import Canvas, { Component, Circle, Rectangle, Group, CanvasDOM } from 'reactive-canvas'
+import Canvas, { Component, Circle, Rectangle, Group, CanvasDOM, Text } from 'reactive-canvas'
 
 class Eye extends Component {
   render () {
@@ -18,6 +18,7 @@ class Face extends Component {
       <Rectangle color='pink' width={100}>
         <Eye offsetX={-20} offsetY={-30} lookDirection={lookDirection}/>
         <Eye offsetX={20} offsetY={-30} lookDirection={lookDirection}/>
+        <Text text="Hello World" color="red" fontSize={10} />
       </Rectangle>
     )
   }
@@ -27,7 +28,7 @@ class Window extends Component {
   render (seconds) {
     return (
       <Group centerX={350} centerY={250} scale={(1.5 - seconds % 3) ** 2}>
-        <Face offsetX={-100} />
+        <Face />
         <Face offsetX={100} />
       </Group>
     )
