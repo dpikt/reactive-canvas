@@ -18,7 +18,7 @@ class Face extends Component {
   render (seconds) {
     const lookDirection = (seconds % 2) < 1 ? 'left' : 'right'
     return (
-      <Rectangle color='pink' width={100}>
+      <Rectangle color='pink' width={100} scale={slowOscillator(seconds)}>
         <Eye offsetX={-20} offsetY={-30} lookDirection={lookDirection} scale={fastOscillator(seconds)}/>
         <Eye offsetX={20} offsetY={-30} lookDirection={lookDirection}/>
         <Text text="Hello World" color="black" fontSize={10} />
@@ -30,9 +30,8 @@ class Face extends Component {
 class Window extends Component {
   render (seconds) {
     return (
-      <Group centerX={350} centerY={250} scale={slowOscillator(seconds)}>
-        <Face />
-        <Face offsetX={100} />
+      <Group centerX={80} centerY={250} scale={1}>
+        {[0, 1, 2, 3, 4].map(i => <Face offsetX={150 * i}/>)}
       </Group>
     )
   }
