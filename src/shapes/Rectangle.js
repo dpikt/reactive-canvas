@@ -6,7 +6,6 @@ class Rectangle extends Component {
     return {
       width: 50,
       height: 50,
-      scale: 1,
       color: 'black',
       borderColor: 'black',
       borderWidth: 1

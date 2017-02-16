@@ -4,7 +4,6 @@ class Circle extends Component {
   defaultProps () {
     return {
       radius: 25,
-      scale: 1,
       color: 'black'
     }
   }

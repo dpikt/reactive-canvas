@@ -12,7 +12,8 @@ class Component {
       centerX: 0,
       centerY: 0,
       offsetX: 0,
-      offsetY: 0
+      offsetY: 0,
+      scale: 1
     }, this.defaultProps())
   }
   render () {
@@ -31,11 +32,16 @@ class Component {
     // Determine center
     const centerX = this.props.centerX || parentProps.centerX || defaultProps.centerX
     const centerY = this.props.centerY || parentProps.centerY || defaultProps.centerY
-    const offsetX = this.props.offsetX || parentProps.offsetX || defaultProps.offsetX
-    const offsetY = this.props.offsetY || parentProps.offsetY || defaultProps.offsetY
-    const scale =   this.props.scale   || parentProps.scale   || defaultProps.scale
-    this.props.centerX = centerX + (offsetX * scale)
-    this.props.centerY = centerY + (offsetY * scale)
+    let offsetX = this.props.offsetX || parentProps.offsetX || defaultProps.offsetX
+    let offsetY = this.props.offsetY || parentProps.offsetY || defaultProps.offsetY
+    let scale = this.props.scale || defaultProps.scale
+    if (parentProps.scale) {
+      scale *= parentProps.scale
+      offsetX *= parentProps.scale
+      offsetY *= parentProps.scale
+    }
+    this.props.centerX = centerX + offsetX
+    this.props.centerY = centerY + offsetY
     this.props.scale = scale
     delete this.props.offsetY
     delete this.props.offsetX

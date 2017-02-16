@@ -1,4 +1,7 @@
-import Canvas, { Component, Circle, Rectangle, Group, CanvasDOM, Text } from 'reactive-canvas'
+import Canvas, { Component, Circle, Rectangle, Group, CanvasDOM, Text, Oscillator } from 'reactive-canvas'
+
+const slowOscillator = Oscillator({ start: 1, range: 0.1, speed: 0.5 })
+const fastOscillator = Oscillator({ start: 1, range: 0.2, speed: 1 })
 
 class Eye extends Component {
   render () {
@@ -16,9 +19,9 @@ class Face extends Component {
     const lookDirection = (seconds % 2) < 1 ? 'left' : 'right'
     return (
       <Rectangle color='pink' width={100}>
-        <Eye offsetX={-20} offsetY={-30} lookDirection={lookDirection}/>
+        <Eye offsetX={-20} offsetY={-30} lookDirection={lookDirection} scale={fastOscillator(seconds)}/>
         <Eye offsetX={20} offsetY={-30} lookDirection={lookDirection}/>
-        <Text text="Hello World" color="red" fontSize={10} />
+        <Text text="Hello World" color="black" fontSize={10} />
       </Rectangle>
     )
   }
@@ -27,7 +30,7 @@ class Face extends Component {
 class Window extends Component {
   render (seconds) {
     return (
-      <Group centerX={350} centerY={250} scale={(1.5 - seconds % 3) ** 2}>
+      <Group centerX={350} centerY={250} scale={slowOscillator(seconds)}>
         <Face />
         <Face offsetX={100} />
       </Group>
