@@ -1,4 +1,4 @@
-import Canvas, { Component, Circle, Rectangle, CanvasDOM } from 'reactive-canvas'
+import Canvas, { Component, Circle, Rectangle, Group, CanvasDOM } from 'reactive-canvas'
 
 class Eye extends Component {
   render () {
@@ -26,7 +26,10 @@ class Face extends Component {
 class Window extends Component {
   render (seconds) {
     return (
-      <Face centerX={350} centerY={250} scale={(1.5 - seconds % 3) ** 2} />
+      <Group centerX={350} centerY={250} scale={(1.5 - seconds % 3) ** 2}>
+        <Face offsetX={-100} />
+        <Face offsetX={100} />
+      </Group>
     )
   }
 }
