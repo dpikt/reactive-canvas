@@ -1,4 +1,4 @@
-import Canvas, { Component, Circle, Rectangle, Group, CanvasDOM, Text, Oscillator } from 'reactive-canvas'
+import Canvas, { Component, Line, Circle, Rectangle, Group, CanvasDOM, Text, Oscillator } from '../src'
 
 const slowOscillator = Oscillator({ start: 1, range: 0.1, speed: 0.5 })
 const fastOscillator = Oscillator({ start: 1, range: 0.2, speed: 1 })
