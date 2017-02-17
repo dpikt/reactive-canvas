@@ -2,9 +2,16 @@ class Component {
   constructor (props, children=[]) {
     this.children = children
     this.props = props || {}
+    this.state = this.defaultState()
+  }
+  defaultState () {
+    return {}
   }
   defaultProps () {
     return {}
+  }
+  onCanvasClick (x, y) {
+    return [x, y]
   }
   _defaultProps () {
     // Universal default props

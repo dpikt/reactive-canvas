@@ -1,4 +1,4 @@
-import { onNextFrame } from './utils'
+import { onNextFrame, MouseHandler } from './utils'
 
 // Note: right now the id isn't being used at all.
 const buildNodeTree = function (component, secs, parent=null, id=0) {
@@ -17,6 +17,12 @@ const drawNodeTree = function (node, context, canvas) {
 }
 
 const render = (component, canvas) => {
+
+  // Bind click event to top level component
+  const handler = new MouseHandler(canvas)
+  handler.onContinuousClick(component.onCanvasClick.bind(component))
+
+  // Start render loop
   const context = canvas.getContext('2d')
   const startTime = performance.now()
   const renderLoop = () => {

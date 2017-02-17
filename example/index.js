@@ -28,10 +28,20 @@ class Face extends Component {
 }
 
 class Window extends Component {
+  defaultState () {
+    return {
+      circles: []
+    }
+  }
+  onCanvasClick (x, y) {
+    this.state.circles.push({ x, y, color: '#'+(Math.random()*0xFFFFFF<<0).toString(16) })
+  }
   render (seconds) {
+    const state = this.state || { circles: [] }
+    const { circles } = state
     return (
-      <Group centerX={80} centerY={250} scale={1}>
-        {[0, 1, 2, 3, 4].map(i => <Face offsetX={150 * i}/>)}
+      <Group>
+        {circles.map((c, i) => <Circle centerX={c.x} centerY={c.y} color={c.color} scale={slowOscillator(seconds + i / 2)} />)}
       </Group>
     )
   }
