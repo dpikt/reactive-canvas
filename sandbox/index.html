@@ -10,7 +10,9 @@
 </head>
 <body>
     <h1> Reactive Canvas Sandbox </h1>
-    
+    <button class="reset-timer"> Reset timer </button>
+    <button class="reset-events"> Clear events </button>
+
     <div class="row">
       <div class="six columns">
         <canvas class="main-canvas" width="500" height="1000"
@@ -19,8 +21,9 @@
         </canvas>
       </div>
       <div class="six columns">
-          <div id="editor" class="code-input">
-          </div>
+        <span class="flash-message error"></span>
+        <div id="editor" class="code-input">
+        </div>
       </div>
     <div>
 

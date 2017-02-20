@@ -31,18 +31,20 @@ class CanvasDOM {
   }
   mount (component) {
     // Try rendering once
-    try {
-      this.render(component)
-      // If it worked, mount continuously
-      this.component = component
-    } catch (e) {
-      // console.log(e)
-    }
+    this.render(component)
+    // If it worked, mount continuously
+    this.component = component
   }
   onClick (x, y) {
     const newEvent = { x, y, time: this.currentTime }
     this.events.push(newEvent)
     if (this.component) this.component.onCanvasClick(newEvent)
+  }
+  resetTimer () {
+    this.startTime = performance.now()
+  }
+  resetEvents () {
+    this.events = []
   }
   render (component) {
     const currentTime = performance.now()
