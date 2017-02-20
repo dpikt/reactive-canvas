@@ -1,15 +1,16 @@
 
 module.exports = {
-  entry: './example/index.js',
+  entry: './sandbox/index.js',
   output: {
-    path: __dirname + '/example',
+    path: __dirname + '/sandbox',
     filename: 'bundle.js'
   },
   module: {
     rules: [
       { 
         test: /\.js$/, 
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /sandbox\/js\/examples/],
+        include: [/sandbox\/js\/examples\/index.js/],
         use: [{
           loader: 'babel-loader',
           options: {
