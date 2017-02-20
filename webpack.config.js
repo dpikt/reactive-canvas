@@ -1,4 +1,3 @@
-
 module.exports = {
   entry: './sandbox/index.js',
   output: {
@@ -9,8 +8,7 @@ module.exports = {
     rules: [
       { 
         test: /\.js$/, 
-        exclude: [/node_modules/, /sandbox\/js\/examples/],
-        include: [/sandbox\/js\/examples\/index.js/],
+        exclude: [/node_modules/, /\/sandbox\/js\/examples\/(?!index).*\.js/],
         use: [{
           loader: 'babel-loader',
           options: {
