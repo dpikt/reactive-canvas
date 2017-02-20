@@ -2,6 +2,7 @@ class Component {
   constructor (props, children=[]) {
     this.children = children
     this.props = props || {}
+    this.events = []
     this.state = this.defaultState()
   }
   defaultState () {
@@ -10,8 +11,11 @@ class Component {
   defaultProps () {
     return {}
   }
-  onCanvasClick (x, y) {
-    return [x, y]
+  onCanvasClick (event) {
+    return event
+  }
+  _setEvents (events) {
+    this.events = events
   }
   _defaultProps () {
     // Universal default props

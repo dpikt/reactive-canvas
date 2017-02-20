@@ -1,54 +1,87 @@
-import Canvas, { Component, Line, Circle, Rectangle, Group, CanvasDOM, Text, Oscillator } from '../src'
+import Canvas from 'reactive-canvas'
+import * as ReactiveCanvas from 'reactive-canvas'
+import * as Babel from 'babel-standalone'
+const Ace = window.ace // these folks need an NPM package stat
 
-const slowOscillator = Oscillator({ start: 1, range: 0.1, speed: 0.5 })
-const fastOscillator = Oscillator({ start: 1, range: 0.2, speed: 1 })
+const { Component, Line, Circle, Rectangle, Group, CanvasDOM, Text, Oscillator } = ReactiveCanvas
 
-class Eye extends Component {
-  render () {
-    const { lookDirection } = this.props
-    return (
-      <Circle color="white" radius={10}>
-        <Circle color="black" radius={5} offsetX={(lookDirection === 'left') ? -5 : 5} />
-      </Circle>
-    )
-  }
+import JSXPlugin from 'babel-plugin-transform-react-jsx'
+Babel.registerPlugin('babel-plugin-transform-react-jsx', JSXPlugin)
+
+
+const wrapCode = (code) => {
+  return `
+    (function (Canvas, ReactiveCanvas) {
+      ${code}
+      try {
+        return new Window()
+      } catch (e) {
+        throw e
+      }
+    })
+  `
 }
 
-class Face extends Component {
-  render (seconds) {
-    const lookDirection = (seconds % 2) < 1 ? 'left' : 'right'
-    return (
-      <Rectangle color='pink' width={100} scale={slowOscillator(seconds)}>
-        <Eye offsetX={-20} offsetY={-30} lookDirection={lookDirection} scale={fastOscillator(seconds)}/>
-        <Eye offsetX={20} offsetY={-30} lookDirection={lookDirection}/>
-        <Text text="Hello World" color="black" fontSize={10} />
-      </Rectangle>
-    )
-  }
+const evaluate = (code) => {
+  const wrapperFunction = wrapCode(transpile(code))
+  return eval(wrapperFunction)(Canvas, ReactiveCanvas)
 }
 
-class Window extends Component {
-  defaultState () {
-    return {
-      circles: []
+const fetchFile = (filepath, callback) => {
+  const client = new XMLHttpRequest()
+  client.open('GET', filepath)
+  client.onreadystatechange = () => {
+    if (callback) callback(client.responseText)
+  }
+  client.send()
+}
+
+const babelConfig = { 
+
+  presets: ['es2015'],
+  plugins: [
+    ['transform-react-jsx', {
+      'pragma': 'Canvas.create'
+    }]
+  ]
+}
+
+const transpile = (code) => {
+  return Babel.transform(code, babelConfig).code
+}
+
+class Sandbox {
+  constructor (editor, renderer) {
+    this.editor = editor
+    this.renderer = renderer
+    this.editor.getSession().on('change', this.runCode.bind(this))
+    this.fetchDefaultCode()
+  }
+  fetchDefaultCode () {
+    const self = this
+    fetchFile('/default.js', (text) => {
+      self.editor.setValue(text)
+      self.runCode()
+    })
+  }
+  runCode () {
+    const code = this.editor.getValue()
+    try {
+      const Window = evaluate(code)
+      this.renderer.mount(Window)
+    } catch (e) {
+      console.log(e)
     }
-  }
-  onCanvasClick (x, y) {
-    this.state.circles.push({ x, y, color: '#'+(Math.random()*0xFFFFFF<<0).toString(16) })
-  }
-  render (seconds) {
-    const state = this.state || { circles: [] }
-    const { circles } = state
-    return (
-      <Group>
-        {circles.map((c, i) => <Circle centerX={c.x} centerY={c.y} color={c.color} scale={slowOscillator(seconds + i / 2)} />)}
-      </Group>
-    )
   }
 }
 
 window.onload = function () {
-  var canvas = document.getElementById('myCanvas')
-  var Main = new Window()
-  CanvasDOM.render(Main, canvas)
+  const editor = Ace.edit('editor')
+  editor.getSession().setMode('ace/mode/jsx')
+  editor.$blockScrolling = Infinity // Squash deprecation warnings
+
+  const canvas = document.getElementsByClassName('main-canvas')[0]
+  const Renderer = new CanvasDOM(canvas)
+
+  const sandbox = new Sandbox(editor, Renderer)
 }

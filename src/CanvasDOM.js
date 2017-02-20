@@ -16,24 +16,49 @@ const drawNodeTree = function (node, context, canvas) {
   node.children.forEach((child) => drawNodeTree(child, context, canvas))
 }
 
-const render = (component, canvas) => {
-
-  // Bind click event to top level component
-  const handler = new MouseHandler(canvas)
-  handler.onContinuousClick(component.onCanvasClick.bind(component))
-
-  // Start render loop
-  const context = canvas.getContext('2d')
-  const startTime = performance.now()
-  const renderLoop = () => {
-    const currentTime = performance.now()
-    const secs = Math.round(currentTime - startTime) / 1000.00
-    const nodeTree = buildNodeTree(component, secs)
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    drawNodeTree(nodeTree, context, canvas)
-    onNextFrame(renderLoop)
+class CanvasDOM {
+  constructor (canvas) {
+    this.canvas = canvas
+    this.context = this.canvas.getContext('2d')
+    this.startTime = performance.now()
+    this.currentTime = 0
+    this.component = null
+    this.events = []
+    // Bind mouse events
+    const handler = new MouseHandler(this.canvas)
+    handler.onContinuousClick(this.onClick.bind(this))
+    this._start()
   }
-  renderLoop()
+  mount (component) {
+    // Try rendering once
+    try {
+      this.render(component)
+      // If it worked, mount continuously
+      this.component = component
+    } catch (e) {
+      // console.log(e)
+    }
+  }
+  onClick (x, y) {
+    const newEvent = { x, y, time: this.currentTime }
+    this.events.push(newEvent)
+    if (this.component) this.component.onCanvasClick(newEvent)
+  }
+  render (component) {
+    const currentTime = performance.now()
+    this.currentTime = Math.round(currentTime - this.startTime) / 1000.00
+    component._setEvents(this.events)
+    const nodeTree = buildNodeTree(component, this.currentTime)
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    drawNodeTree(nodeTree, this.context, this.canvas)
+  }
+  _start () {
+    const renderLoop = () => {
+      if (this.component) this.render(this.component)
+      onNextFrame(renderLoop)
+    }
+    renderLoop()
+  }
 }
 
-export default { render }
+export default CanvasDOM

@@ -2,12 +2,27 @@
 <html>
 <head>
   <title>Reactive Canvas Example</title>
+  <script src="/lib/ace.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" src="bundle.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles/normalize.css">
+  <link rel="stylesheet" type="text/css" href="styles/skeleton.css">
+  <link rel="stylesheet" type="text/css" href="styles/site.css">
 </head>
 <body>
-<canvas id="myCanvas" width="1000" height="1000"
-style="border:1px solid #c3c3c3;">
-Your browser does not support the canvas element.
-</canvas>
+    <h1> Reactive Canvas Sandbox </h1>
+    
+    <div class="row">
+      <div class="six columns">
+        <canvas class="main-canvas" width="500" height="1000"
+          style="border:1px solid #c3c3c3;">
+          Your browser does not support the canvas element.
+        </canvas>
+      </div>
+      <div class="six columns">
+          <div id="editor" class="code-input">
+          </div>
+      </div>
+    <div>
+
 </body>
 </html>
