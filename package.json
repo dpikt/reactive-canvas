@@ -16,10 +16,13 @@
     "eslint": "^3.15.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.10.0",
+    "lodash.debounce": "^4.0.8",
     "raw-loader": "^0.5.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+  }
 }

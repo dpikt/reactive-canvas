@@ -1,12 +1,54 @@
-.main-canvas {
+body {
+  background: #e6e9ef;
+}
 
+button {
+  background: white;
+  margin: 1em;
+}
+
+.main-canvas {
+  background: white;
+}
+
+.top-bar {
+  background: black;
+}
+
+.sandbox {
+  /*margin-top: 2em;*/
+  background: white;
+  border: solid 1px gray;
+}
+
+.title {
+  /*text-align: center;*/
+  color: white;
+  font-size: 2em;
+  padding: 10px;
+  margin: 0;
 }
 
 .code-input {
-  height: 1000px;
-  width: 100%;
+  height: 500px;
 }
 
 .error {
   color: red;
+}
+
+.error::before {
+  content: '✗';
+  font-size: 1.2em;
+  padding: 1em;
+}
+
+.success {
+  color: green;
+}
+
+.success::before {
+  content: '✓';
+  font-size: 1.2em;
+  padding: 1em;
 }

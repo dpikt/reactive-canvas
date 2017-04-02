@@ -9,23 +9,21 @@
   <link rel="stylesheet" type="text/css" href="styles/site.css">
 </head>
 <body>
-    <h1> Reactive Canvas Sandbox </h1>
-    <button class="reset-timer"> Reset timer </button>
-    <button class="reset-events"> Clear events </button>
-
-    <div class="row">
-      <div class="six columns">
-        <canvas class="main-canvas" width="500" height="1000"
-          style="border:1px solid #c3c3c3;">
-          Your browser does not support the canvas element.
-        </canvas>
-      </div>
-      <div class="six columns">
-        <span class="flash-message error"></span>
-        <div id="editor" class="code-input">
-        </div>
-      </div>
-    <div>
-
+  <div class="top-bar">
+    <h1 class="title"> Reactive Canvas Sandbox </h1>
+  </div>
+  <div class="row sandbox">
+    <div class="six columns">
+      <canvas class="main-canvas" width="5000" height="500">
+        Your browser does not support the canvas element.
+      </canvas>
+    </div>
+    <div class="six columns">
+      <div id="editor" class="code-input"></div>
+    </div>
+  </div>
+  <button class="reset-timer"> Reset timer </button>
+  <button class="reset-events"> Clear events </button>
+  <span class="flash-message success"></span>
 </body>
 </html>

@@ -8,6 +8,7 @@ window.onload = function () {
   const editor = Ace.edit('editor')
   editor.getSession().setMode('ace/mode/jsx')
   editor.$blockScrolling = Infinity // Squash deprecation warnings
+  editor.setShowPrintMargin(false) // Hide stupid line
   // Intialize sandbox
   const canvas = getElement('main-canvas')
   const messageDisplay = getElement('flash-message')
