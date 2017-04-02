@@ -12,7 +12,7 @@ class Sandbox {
     this.editor.getSession().on('change', runCode)
   }
   start () {
-    this.editor.setValue(Examples.circles)
+    this.editor.setValue(Examples.pong)
     this.runCode()
   }
   runCode () {
